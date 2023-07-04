@@ -9,10 +9,18 @@ from dotenv import load_dotenv
 
 load_dotenv()
 app = Flask(__name__)
-app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
+
+
+mongo_username = os.environ.get("MONGO_USERNAME")  # Retrieve MONGO_USERNAME from the environment variable
+mongo_password = os.environ.get("MONGO_PASSWORD")  # Retrieve MONGO_PASSWORD from the environment variable
+mongo_socket_path = os.environ.get("MONGO_SOCKET_PATH")  # Retrieve MONGO_SOCKET_PATH from the environment variable
+
+app.config["MONGO_URI"] = "mongodb+srv://{}:{}@{}".format(mongo_username,mongo_password,mongo_socket_path)
+
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 mongo = MongoClient(app.config["MONGO_URI"])
-db = mongo.get_database("dev")
+db_name = os.environ.get("MONGO_DB_NAME")
+db = mongo.get_database(db_name)
 
 
 @app.route("/")
@@ -20,6 +28,12 @@ def index():
     hostname = socket.gethostname()
     return jsonify(
         message="Welcome to Tasks app! I am running inside {} pod!".format(hostname)
+    )
+
+@app.route("/db-info")
+def get_db_name():
+    return jsonify(
+        message="Welcome , I am using {} ".format(db_name)
     )
 
 
