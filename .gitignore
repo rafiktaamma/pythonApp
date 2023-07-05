@@ -1,0 +1,4 @@
+terraform/intialisation.sh
+terraform/.terraform
+terraform/modules
+terraform/.terraform.lock.hcl
