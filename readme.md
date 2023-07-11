@@ -38,6 +38,3 @@ python app.py
 
 Contributions to the PythonApp are welcome. If you find any issues or would like to suggest improvements, please open an issue or submit a pull request on the [GitHub repository](https://github.com/rafiktaamma/pythonApp).
 
-## License
-
-This PythonApp is licensed under the [MIT License](https://chat.openai.com/LICENSE).
