@@ -124,4 +124,11 @@ def delete_all_tasks():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    host = "0.0.0.0"
+    port = 5000
+
+    # Get the IP address of the machine
+    ip_address = socket.gethostbyname(socket.gethostname())
+    print(f"Flask application running at: http://{ip_address}:{port}/")
+
+    app.run(host=host, port=port)
