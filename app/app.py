@@ -125,7 +125,12 @@ def delete_all_tasks():
 
 if __name__ == "__main__":
     host = "0.0.0.0"
-    port = 5000
+    
+    # Check if the PYTHON_APP_PORT environment variable is set
+    if 'PYTHON_APP_PORT' in os.environ:
+        port = int(os.environ['PYTHON_APP_PORT'])
+    else:
+        port = 80
 
     # Get the IP address of the machine
     ip_address = socket.gethostbyname(socket.gethostname())
