@@ -5,10 +5,14 @@ from bson.objectid import ObjectId
 import socket
 import os
 from dotenv import load_dotenv
+import datetime
+import logging
 
 
 load_dotenv()
 app = Flask(__name__)
+
+logging.basicConfig(level=logging.INFO)
 
 
 mongo_username = os.environ.get("MONGO_USERNAME")  # Retrieve MONGO_USERNAME from the environment variable
@@ -26,6 +30,9 @@ db = mongo.get_database(db_name)
 @app.route("/")
 def index():
     hostname = socket.gethostname()
+    current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    log_message = "Processing index request with hostname: {}. Current time: {}".format(hostname, current_time)
+    app.logger.info(log_message)
     return jsonify(
         message="Welcome to Tasks app! I am running inside {} pod!".format(hostname)
     )
