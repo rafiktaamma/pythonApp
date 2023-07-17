@@ -12,7 +12,21 @@ import logging
 load_dotenv()
 app = Flask(__name__)
 
-logging.basicConfig(level=logging.INFO)
+log_folder = "logs"
+log_filename = "app.log"
+log_path = f"{log_folder}/{log_filename}"
+
+
+#Create folder logs
+os.makedirs(log_folder, exist_ok=True)
+
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s %(levelname)s %(message)s",                
+    datefmt="%Y-%m-%d %H:%M:%S",
+    filename=log_path,
+    )
 
 
 mongo_username = os.environ.get("MONGO_USERNAME")  # Retrieve MONGO_USERNAME from the environment variable
@@ -30,12 +44,20 @@ db = mongo.get_database(db_name)
 @app.route("/")
 def index():
     hostname = socket.gethostname()
-    current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    log_message = "Processing index request with hostname: {}. Current time: {}".format(hostname, current_time)
+    log_message = "Processing index request with hostname: {}.".format(hostname)
     app.logger.info(log_message)
     return jsonify(
         message="Welcome to Tasks app! I am running inside {} pod!".format(hostname)
     )
+@app.route("/error/<id>")
+def error(id):
+    hostname = socket.gethostname()
+    log_message = "Error in processing the request with id: {}. Hostname: {}".format(id, hostname)
+    app.logger.error(log_message)
+    return jsonify(
+        message=log_message
+    )
+
 
 @app.route("/db-info")
 def get_db_name():

@@ -3,3 +3,5 @@ terraform/.terraform
 terraform/modules
 terraform/.terraform.lock.hcl
 terraform/*.conf
+*.log
+**/logs
